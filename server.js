@@ -7,6 +7,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get('/vonatok', async (req, res) => {
+  console.log('Received request for /vonatok');
   try {
     const mavResponse = await fetch('https://vim.mav-start.hu/VIM/PR/20240320/MobileServiceS.svc/rest/GetVonatok', {
       method: 'POST',

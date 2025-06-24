@@ -15,18 +15,27 @@ app.post('/vonatok', async (req, res) => {
         'Accept': 'application/json'
       },
       body: JSON.stringify({
-        Nyelv: 'HU',
-        UAID: '2Juija1mabqr24Blkx1qkXxJ105j'
+        "Nyelv": 'HU',
+        "UAID": '2Juija1mabqr24Blkx1qkXxJ105j'
       })
     });
 
-    const data = await mavResponse.json();
+    const text = await mavResponse.text();  // safer: always parse as text first
+    console.log('MAV status:', mavResponse.status);
+    console.log('MAV body:', text);
+
+    if (!mavResponse.ok) {
+      return res.status(mavResponse.status).json({ error: 'MAV API responded with error', body: text });
+    }
+
+    const data = JSON.parse(text);  // parse text manually
     res.json(data);
+
   } catch (err) {
-    console.error(err);
-    res.status(500).send({ error: 'Hiba a MAV API hívás során' });
+    console.error('Proxy error:', err);
+    res.status(500).json({ error: 'Hiba a MAV API hívás során', detail: err.message });
   }
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Proxy fut a ${PORT} porton`));
+app.listen(PORT, () => console.log(`Proxy running on port ${PORT}`));

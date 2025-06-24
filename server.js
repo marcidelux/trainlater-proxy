@@ -8,7 +8,7 @@ app.use(express.json());
 
 app.get('/vonatok', async (req, res) => {
   try {
-    const mavResponse = await fetch('https://vim.mav-start.hu/VIM/PR/20230501/MobileServiceS.svc/rest/GetVonatok', {
+    const mavResponse = await fetch('https://vim.mav-start.hu/VIM/PR/20240320/MobileServiceS.svc/rest/GetVonatok', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
